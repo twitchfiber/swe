@@ -1,1 +1,27 @@
-<h1>Successful login</h1>
+<html>
+    <head>
+        <script>
+        function updatePassword() {
+            var x = document.getElementById("pwReset")
+            x.style.display = "block"
+        //document.getElementById("demo").innerHTML = "Paragraph changed.";
+        }
+        </script>
+    </head>
+    <h1>Hello, {{name}}</h1>
+    <button onclick="updatePassword()">Reset Password</button><br><br>
+
+    <form id="pwReset" action="/resetPassword" method="get" style="display: none">
+
+        Current Password:<br>
+        <input type="password" name="oldPW"><br>
+        New Password:<br>
+        <input type="password" name="newPW"><br><br>
+        <input type="text" name="userName" value="{{login}}" style="display:none">
+
+        <input type="submit" value="Reset">
+    </form>
+
+
+</html>
+

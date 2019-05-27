@@ -29,18 +29,20 @@ app.get('/attemptSignIn', (req, res) => {
     const dataBuffer = fs.readFileSync("db.json")
     const dataJSON = dataBuffer.toString()
     const users = JSON.parse(dataJSON)
+    let currentUser = {}
     let success = false
     users.forEach((user) => {
         console.log(user.login, user.pw)
         if (user.login === login && user.pw === pw) {
             success = true
+            currentUser = user
         }
     })
     if(success === false) {
         console.log("Failed login")
     }
     else {
-        res.render('success')
+        res.render('success', currentUser)
     }
 })
 
@@ -48,15 +50,43 @@ app.get('/signup', (req, res) => {
     res.render('signup')
 })
 
-app.get('/success'), (req, res) => {
-    res.render('success')
-}
+app.get('/resetPassword', (req, res) => {
+    const oldPW = req.query.oldPW
+    const newPW = req.query.newPW
+    const userName = req.query.userName
+
+    // load db and see if user exists
+    const dataBuffer = fs.readFileSync("db.json")
+    const dataJSON = dataBuffer.toString()
+    const users = JSON.parse(dataJSON)
+    let currentUser = {}
+    let success = false
+    users.forEach((user) => {
+        console.log(user.login, user.pw)
+        if (user.login === userName && user.pw === oldPW) {
+            success = true
+            currentUser = user
+            user.pw = newPW
+
+            // save users
+            fs.writeFileSync('db.json', JSON.stringify(users))
+        }
+    })
+    if(success === false) {
+        console.log("Failed password reset")
+        res.render('home')
+    }
+    else {
+        res.render('success', currentUser)
+    }
+})
 
 app.get('/addUser', (req, res) => {
     // create a new user object
+    const newName = req.query.name
     const newlogin = req.query.login
     const newPW = req.query.pw
-    const newUser = {login: newlogin, pw: newPW}
+    const newUser = {login: newlogin, name: newName, pw: newPW}
     
     // load users
     const dataBuffer = fs.readFileSync("db.json")
