@@ -4,12 +4,12 @@
         function updatePassword() {
             var x = document.getElementById("pwReset")
             x.style.display = "block"
-        //document.getElementById("demo").innerHTML = "Paragraph changed.";
         }
         </script>
     </head>
     <h1>Hello, {{name}}</h1>
-    <button onclick="updatePassword()">Reset Password</button><br><br>
+    <button onclick="updatePassword()">Reset Password</button><br>
+    <button><a href="/" style="text-decoration: none">Log Out</a></button><br><br>
 
     <form id="pwReset" action="/resetPassword" method="get" style="display: none">
 
