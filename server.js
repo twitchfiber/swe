@@ -119,7 +119,7 @@ app.post('/resetPassword',function(req,res,next){
 			res.render('signin');
 		}
         else {
-		context = router.getIssueswFilter(req.session.user.login, req.body.filerParams);
+		context = router.getIssueswFilter(req.session.user.login, req.body.filterParams);
 		res.render('myissues',context)
         }
 		
@@ -131,11 +131,12 @@ app.post('/resetPassword',function(req,res,next){
 		if (notloggedin(req)){
 			res.render('signin');
 		}
-      else  {
-		router.addIssue(req.session.user.login, req.body.issue);
+     else  {
+        req.session.user={ login: 'doddc', name: 'doddco2', pw: 't' }
+		router.addIssue(req.session.user.login, req.body);
 		context = router.getIssuesbyID(req.session.user.login);
 		res.render('myissues',context)	
-      }
+     }
   }); 
 
   //Update Issue
@@ -144,7 +145,7 @@ app.post('/resetPassword',function(req,res,next){
 			res.render('signin');
 		}
       else {
-		router.updateIssue(req.session.user.login, req.body.issue);
+		router.updateIssue(req.session.user.login, req.body);
 		context = router.getIssuesbyID(req.session.user.login);
 		res.render('myissues',context)	
       }
@@ -156,7 +157,7 @@ app.post('/resetPassword',function(req,res,next){
 			res.render('signin');
 		}
         else {
-		router.resolveIssue(req.session.user.login, req.body.issue);
+		router.resolveIssue(req.session.user.login, req.body);
 		context = router.getIssuesbyID(req.session.user.login);
 		res.render('myissues',context)	
         }
